@@ -2,22 +2,30 @@
 import { _decorator, Component, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
-@ccclass('GameManager')
-export class GameManager extends Component {
+const OUTOFRANGE = 50;
+@ccclass('Bullet')
+export class Bullet extends Component {
     // [1]
     // dummy = '';
 
     // [2]
-    // @property
-    // serializableDummy = 0;
+     @property
+    public bulletSpeed = 1;
 
     start () {
         // [3]
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    update (deltaTime: number) {
+        // [4]
+        const pos = this.node.position;
+        const movePos = pos.z - this.bulletSpeed;
+        this.node.setPosition(pos.x,pos.y,movePos)
+        if(movePos>OUTOFRANGE||movePos<-OUTOFRANGE){
+            this.node.destroy();
+            console.log("bullet destory");
+        }
+    }
 }
 
 /**
