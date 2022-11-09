@@ -24,16 +24,19 @@
     "_components": [
       {
         "__id__": 7
+      },
+      {
+        "__id__": 9
       }
     ],
     "_prefab": {
-      "__id__": 9
+      "__id__": 11
     },
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -10.859
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -77,7 +80,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -0.488,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -178,6 +181,37 @@
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "e1C2RKkzNLnpd1KkaTlE22"
+  },
+  {
+    "__type__": "cc.BoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 10
+    },
+    "_material": null,
+    "_isTrigger": false,
+    "_center": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0.04,
+      "z": 0
+    },
+    "_size": {
+      "__type__": "cc.Vec3",
+      "x": 0.15,
+      "y": 0.6,
+      "z": 1
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "79caMrRnlHs4THa7+JFUc8"
   },
   {
     "__type__": "cc.PrefabInfo",
