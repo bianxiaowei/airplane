@@ -9,8 +9,9 @@ export class Bullet extends Component {
     // dummy = '';
 
     // [2]
-     @property
-    public bulletSpeed = 1;
+    private _bulletSpeed = 0;
+
+    private _isEnemyBullet = false;
 
     start () {
         // [3]
@@ -19,12 +20,30 @@ export class Bullet extends Component {
     update (deltaTime: number) {
         // [4]
         const pos = this.node.position;
-        const movePos = pos.z - this.bulletSpeed;
-        this.node.setPosition(pos.x,pos.y,movePos)
-        if(movePos>OUTOFRANGE||movePos<-OUTOFRANGE){
-            this.node.destroy();
-            console.log("bullet destory");
+        let movePos = 0;
+        if(this._isEnemyBullet){
+            movePos = pos.z + this._bulletSpeed;
+            this.node.setPosition(pos.x,pos.y,movePos)
+            if(movePos>OUTOFRANGE){
+                this.node.destroy();
+                //console.log("bullet destory");
+            }
+        }else{
+            movePos = pos.z - this._bulletSpeed;
+            this.node.setPosition(pos.x,pos.y,movePos)
+            if(movePos<-OUTOFRANGE){
+                this.node.destroy();
+                //console.log("bullet destory");
+            }
         }
+         
+        
+    }
+
+    public show(bulletSpeed:number,isEnemyBullet:boolean){
+        //console.log("bulletSpeed "+bulletSpeed);
+        this._bulletSpeed = bulletSpeed;
+        this._isEnemyBullet = isEnemyBullet;
     }
 }
 
