@@ -1,6 +1,7 @@
 
 import { _decorator, Component, Node, Prefab, instantiate, math, Vec3 } from 'cc';
 import { Bullet } from '../bullet/Bullet';
+import { BulletProp } from '../bullet/BulletProp';
 import { EnemyPlane } from '../plane/EnemyPlane';
 import { Constant } from './Constant';
 const { ccclass, property } = _decorator;
@@ -37,6 +38,15 @@ export class GameManager extends Component {
     @property(Prefab)
     public enemy02:Prefab = null;
 
+    @property(Prefab)
+    public bulletPropH:Prefab = null;
+
+    @property(Prefab)
+    public bulletPropS:Prefab = null;
+
+    @property(Prefab)
+    public bulletPropM:Prefab = null;
+
     @property
     public bulletSpeed = 0.5;
 
@@ -55,10 +65,14 @@ export class GameManager extends Component {
     @property(Node)
     public bulletRoot:Node = null;
 
+    @property 
+    public propSpeed = 0.3;
+
     private _currShootTime = 0;
     private _isShooting = false;
     private _currentCreateEnemyTime = 0;
     private _combinationInterval = Constant.Combination.PLAN1;
+    private _bulletType = Constant.BulletPropType.BULLET_M;
 
     start () {
         this._init();
@@ -72,7 +86,26 @@ export class GameManager extends Component {
 
     private _modeChange(){
         this._combinationInterval ++ ;
+        this._createBulletProp();
         //console.log(this._combinationInterval);
+    }
+
+    private _createBulletProp(){
+        const typeRandom = math.randomRangeInt(1,4);
+        //this._bulletType = typeRandom;
+        let prefab:Prefab = null;
+        if(typeRandom === Constant.BulletPropType.BULLET_H){
+            prefab = this.bulletPropH;
+        }else if(typeRandom === Constant.BulletPropType.BULLET_S){
+            prefab = this.bulletPropS;
+        }else{
+            prefab = this.bulletPropM;
+        }
+        const prop = instantiate(prefab);
+        prop.setParent(this.node);
+        const propCom = prop.getComponent(BulletProp);
+        propCom.show(this,this.propSpeed);
+        prop.setPosition(15,0,-50);
     }
                                                                                                                                                                                                                                                                                                                                                                                                                                                 
     update (deltaTime: number) {
@@ -190,6 +223,10 @@ export class GameManager extends Component {
         bullet.setPosition(targetPosition.x, targetPosition.y, targetPosition.z + 1);
         const bulletCom = bullet.getComponent(Bullet);
         bulletCom.show(0.5,true);
+    }
+
+    public changeBulletType(type:number){
+        this._bulletType = type;
     }
 }
 

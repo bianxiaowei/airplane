@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, Collider, ITriggerEvent } from 'cc';
 const { ccclass, property } = _decorator;
 
 const OUTOFRANGE = 50;
@@ -44,6 +44,20 @@ export class Bullet extends Component {
         //console.log("bulletSpeed "+bulletSpeed);
         this._bulletSpeed = bulletSpeed;
         this._isEnemyBullet = isEnemyBullet;
+    }
+
+    onEnable(){
+        const collider = this.getComponent(Collider);
+        collider.on("onTriggerEnter",this._onTriggerEnter,this);
+    }
+
+    onDisable(){
+        const collider = this.getComponent(Collider);
+        collider.off("onTriggerEnter",this._onTriggerEnter,this);
+    }
+
+    private _onTriggerEnter(event:ITriggerEvent) {
+        this.node.destroy();
     }
 }
 

@@ -1,5 +1,6 @@
 
-import { _decorator, Component, Node, systemEvent, SystemEvent, EventTouch,Touch } from 'cc';
+import { _decorator, Component, Node, systemEvent, SystemEvent, EventTouch,Touch, Collider, ITriggerEvent } from 'cc';
+import { Constant } from '../frameworker/Constant';
 const { ccclass, property } = _decorator;
 
 @ccclass('SelfPlane')
@@ -15,6 +16,23 @@ export class SelfPlane extends Component {
     start () {
         // [3]
        
+    }
+    
+    onEnable(){
+        const collider = this.getComponent(Collider);
+        collider.on("onTriggerEnter",this._onTriggerEnter,this);
+    }
+
+    onDisable(){
+        const collider = this.getComponent(Collider);
+        collider.off("onTriggerEnter",this._onTriggerEnter,this);
+    }
+
+    private _onTriggerEnter(event:ITriggerEvent) {
+        const collisionGroup = event.otherCollider.getGroup();
+        if(collisionGroup === Constant.CollisionType.ENEMY_PLANE|| collisionGroup === Constant.CollisionType.ENEMY_BULLET){
+            console.log("掉血");
+        }
     }
 
     

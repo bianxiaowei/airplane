@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, Collider, ITriggerEvent } from 'cc';
 import { Constant } from '../frameworker/Constant';
 import { GameManager } from '../frameworker/GameManager';
 const { ccclass, property } = _decorator;
@@ -46,6 +46,23 @@ export class EnemyPlane extends Component {
         this._gameManager = gameManager;
         this._enemySpreed = speed;
         this._needBullet = needBullet;
+    }
+
+    onEnable(){
+        const collider = this.getComponent(Collider);
+        collider.on("onTriggerEnter",this._onTriggerEnter,this);
+    }
+
+    onDisable(){
+        const collider = this.getComponent(Collider);
+        collider.off("onTriggerEnter",this._onTriggerEnter,this);
+    }
+
+    private _onTriggerEnter(event:ITriggerEvent) {
+        const collisionGroup = event.otherCollider.getGroup();
+        if(collisionGroup === Constant.CollisionType.SELF_BULLET|| collisionGroup === Constant.CollisionType.SELF_PLANE){
+            this.node.destroy();
+        }
     }
 }
 
