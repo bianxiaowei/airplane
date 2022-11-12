@@ -50,7 +50,7 @@ export class BulletProp extends Component {
     }
 
     private _onTriggerEnter(event:ITriggerEvent) {
-        const propName = event.selfCollider.name
+        const propName = event.selfCollider.node.name
         if(propName === "bulletS"){
             this._gameManage.changeBulletType(Constant.BulletPropType.BULLET_S)
         } else if(propName === "bulletH"){

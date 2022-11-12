@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, Collider, ITriggerEvent } from 'cc';
+import { Constant } from '../frameworker/Constant';
 const { ccclass, property } = _decorator;
 
 const OUTOFRANGE = 50;
@@ -12,6 +13,8 @@ export class Bullet extends Component {
     private _bulletSpeed = 0;
 
     private _isEnemyBullet = false;
+
+    private _direction = Constant.Direction.MIDDLE;
 
     start () {
         // [3]
@@ -30,7 +33,13 @@ export class Bullet extends Component {
             }
         }else{
             movePos = pos.z - this._bulletSpeed;
-            this.node.setPosition(pos.x,pos.y,movePos)
+            if(this._direction === Constant.Direction.LEFT){
+                this.node.setPosition(pos.x - this._bulletSpeed*0.2,pos.y,movePos)
+            }else if(this._direction === Constant.Direction.RIGHT){
+                this.node.setPosition(pos.x + this._bulletSpeed*0.2,pos.y,movePos)
+            }else{
+                this.node.setPosition(pos.x,pos.y,movePos)
+            }
             if(movePos<-OUTOFRANGE){
                 this.node.destroy();
                 //console.log("bullet destory");
@@ -40,10 +49,11 @@ export class Bullet extends Component {
         
     }
 
-    public show(bulletSpeed:number,isEnemyBullet:boolean){
+    public show(bulletSpeed:number,isEnemyBullet:boolean,direction:number=Constant.Direction.MIDDLE){
         //console.log("bulletSpeed "+bulletSpeed);
         this._bulletSpeed = bulletSpeed;
         this._isEnemyBullet = isEnemyBullet;
+        this._direction = direction;
     }
 
     onEnable(){

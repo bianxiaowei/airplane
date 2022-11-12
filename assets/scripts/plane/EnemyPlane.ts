@@ -59,8 +59,10 @@ export class EnemyPlane extends Component {
     }
 
     private _onTriggerEnter(event:ITriggerEvent) {
+        console.log(" enemy destory");
         const collisionGroup = event.otherCollider.getGroup();
         if(collisionGroup === Constant.CollisionType.SELF_BULLET|| collisionGroup === Constant.CollisionType.SELF_PLANE){
+            console.log(" enemy destory");
             this.node.destroy();
         }
     }
